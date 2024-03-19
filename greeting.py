@@ -9,4 +9,4 @@ def helloall(): # different method name
  name = request.args.get('name')#retrieve GET parameters
  return("Hello {}!".format(name))#Python’s string.format
 if __name__ == "__main__":
- app.run(host='0.0.0.0',port='8080', ssl_context=('cert.pem', 'privkey.pem'))
+ app.run(host='0.0.0.0',port='8080')
