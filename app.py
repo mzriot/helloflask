@@ -30,27 +30,20 @@ CORS(app)
 # My SQL Instance configurations
 # Change the HOST IP and Password to match your instance configurations
 
-@app.route("/test")#URL leading to method
-def test(): # Name of the method
- return("Hello World!<BR/>THIS IS ANOTHER TEST!") #indent this line
-
-@app.route("/yest")#URL leading to method
-def yest(): # Name of the method
- return("Hello World!<BR/>THIS IS YET ANOTHER TEST!") #indent this line
-
-@app.route("/add", methods=['GET', 'POST']) #Add Student
+@app.route("/add", methods=['GET', 'POST'])
 def add():
-  if request.method == 'POST':
-    name = request.form['name']
-    email = request.form['email']
-    print(name,email)
-    cur = mysql.cursor() #create a connection to the SQL instance
-    s='''INSERT INTO students(studentName, email) VALUES('{}','{}');'''.format(name,email)
-    app.logger.info(s)
-    cur.execute(s)
-    mysql.commit()
-  else:
-    return render_template('add.html')
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        print(name, email)
+        cur = mysql.cursor()
+        s = '''INSERT INTO students(studentName, email) VALUES('{}','{}');'''.format(name, email)
+        app.logger.info(s)
+        cur.execute(s)
+        mysql.commit()
+        return '{"Result":"Success"}' 
+    else:
+        return render_template('add.html')
 
   return '{"Result":"Success"}'
 @app.route("/") #Default - Show Data
