@@ -5,16 +5,22 @@
 <meta name="viewport" content="width=device-width">
 <title>Test API Client</title>
 <script>
-let doIt = () => {
-  let tab1 = document.getElementById("tab1");
-  let rows = tab1.getElementsByTagName('tr');
-  fetch('http://collegedns.northeurope.cloudapp.azure.com:8080') // Fetch data from the correct endpoint
-    .then(response => response.text()) // Read response as text
-    .then(data => {
-      tab1.innerHTML = ''; // Clear existing table rows
-      tab1.insertAdjacentHTML('beforeend', data); // Insert fetched HTML data directly into the table
-    })
-    .catch(error => console.error('Error fetching data:', error));
+let doIt=()=>{
+  let tab=document.getElementById("tab1");
+  let rows=tab1.getElementsByTagName('tr');
+  fetch('http://collegedns.northeurope.cloudapp.azure.com:8080/')
+    .then(response => response.json())
+    .then(data=>data.Results.forEach(  //.slice(0,3)
+      x=>{
+        let newRow=rows[0].cloneNode(true);
+        let divs=newRow.getElementsByTagName('td');
+        divs[0].innerHTML=x['ID'];
+        divs[1].innerHTML=x['Name'];
+        divs[2].innerHTML=x['Email'];
+        tab1.appendChild(newRow);
+      }
+    )
+  );
 }
 </script>
 </head>
