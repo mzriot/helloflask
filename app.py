@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, json
+from flask import Flask, render_template, request, jsonify
 import mysql.connector
 from flask_cors import CORS
 
@@ -19,19 +19,15 @@ def hello():
     students = [{'Name': row[0].replace('\n', ' '), 'Email': row[1], 'ID': row[2]} for row in rv]
     return render_template('index.html', students=students)
 
-# Add route for adding a student
 @app.route("/add", methods=['POST'])
 def add():
-    if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        cur = mysql.cursor()
-        query = '''INSERT INTO students(studentName, email) VALUES('{}','{}');'''.format(name, email)
-        cur.execute(query)
-        mysql.commit()
-        return json.dumps({"Result": "Success"})
-    else:
-        return "Invalid request"
+    name = request.form['name']
+    email = request.form['email']
+    cur = mysql.cursor()
+    query = '''INSERT INTO students(studentName, email) VALUES(%s, %s);'''
+    cur.execute(query, (name, email))
+    mysql.commit()
+    return jsonify({"Result": "Success"})
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port='8080')
