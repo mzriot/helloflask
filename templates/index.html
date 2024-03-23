@@ -6,6 +6,16 @@
     <title>Test API Client</title>
 </head>
 <body>
+    <form id="addForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email"><br><br>
+        <input type="submit" value="Add Student">
+    </form>
+
+    <hr>
+
     <button id="fetchButton">Fetch Data</button>
     <div id="studentData">
         <table>
@@ -27,7 +37,28 @@
             </tbody>
         </table>
     </div>
+
     <script>
+        document.getElementById("addForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            fetch('/add', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.Result === "Success") {
+                    alert("Student added successfully!");
+                } else {
+                    alert("Failed to add student!");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
         document.getElementById("fetchButton").addEventListener("click", function() {
             fetch('/').then(response => response.text())
             .then(data => document.getElementById("studentData").innerHTML = data);
