@@ -8,7 +8,7 @@
 let doIt=()=>{
   let tab=document.getElementById("tab1");
   let rows=tab1.getElementsByTagName('tr');
-  fetch('http://collegedns.northeurope.cloudapp.azure.com:8080/')
+  fetch('http://college.northeurope.cloudapp.azure.com:8080')
     .then(response => response.json())
     .then(data=>data.Results.forEach(  //.slice(0,3)
       x=>{
